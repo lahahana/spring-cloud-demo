@@ -1,0 +1,32 @@
+
+spring:
+  application:
+    name: cloud-zuul
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    appname: could-zuul-1
+    health-check-url-path: https://${management.context-path}/health
+    status-page-url-path: https://${management.context-path}/info
+zuul:
+  ignore-local-service: false
+  add-proxy-headers: true
+  sensitive-headers: Cookie,Set-Cookie,Authorization
+  ignore-security-headers: false
+  ignored-services: '*'
+  routes:
+    users:
+      serviceId: cloud-service
+      path: /users/**
+      stripPrefix: true
+
+users:
+  ribbon:
+    listOfServers: localhost:8010
+server:
+  port: 2222
+
